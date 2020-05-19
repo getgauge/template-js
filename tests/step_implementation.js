@@ -1,6 +1,7 @@
 /* globals gauge*/
 "use strict";
-const { openBrowser,write, closeBrowser, goto, press, screenshot, text, focus, textBox, toRightOf } = require('taiko');
+const path = require('path');
+const { openBrowser, write, closeBrowser, goto, press, screenshot, text, focus, textBox, toRightOf } = require('taiko');
 const assert = require("assert");
 const headless = process.env.headless_chrome.toLowerCase() === 'true';
 
@@ -12,8 +13,13 @@ afterSuite(async () => {
     await closeBrowser();
 });
 
-gauge.screenshotFn = async function() {
-    return await screenshot({ encoding: 'base64' });
+// Return a screenshot file name
+gauge.customScreenshotWriter = async function () {
+  const screenshotFilePath = path.join(process.env['gauge_screenshots_dir'], 
+    `screenshot-${process.hrtime.bigint()}.png`);
+
+    await screenshot({ path: screenshotFilePath });
+    return path.basename(screenshotFilePath);
 };
 
 step("Goto getgauge github page", async () => {
