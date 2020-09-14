@@ -7,7 +7,8 @@
 FROM node
  
 # The Taiko installation downloads and installs the chromium required to run the tests. 
-# However, we need the chromium dependencies installed in the environment. These days, most # Dockerfiles just install chrome to get the dependencies.
+# However, we need the chromium dependencies installed in the environment. These days, most 
+# Dockerfiles just install chrome to get the dependencies.
 RUN apt-get update \
      && apt-get install -y wget gnupg ca-certificates \
      && wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \
@@ -24,12 +25,11 @@ ENV PATH="${NPM_CONFIG_PREFIX}/bin:${PATH}"
 ENV TAIKO_BROWSER_ARGS=--no-sandbox,--start-maximized,--disable-dev-shm-usage
 ENV headless_chrome=true
 ENV TAIKO_SKIP_DOCUMENTATION=true
+
+# Uncomment the lines below to use chrome bundled with this image
 #ENV TAIKO_SKIP_CHROMIUM_DOWNLOAD=true
 #ENV TAIKO_BROWSER_PATH=/usr/bin/google-chrome
  
-# Add test code
-ADD . /gauge
-
 # Set working directory
 WORKDIR /gauge
  
