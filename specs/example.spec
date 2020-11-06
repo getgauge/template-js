@@ -4,8 +4,9 @@ This is an executable specification file. This file follows markdown syntax. Eve
 To execute this specification, use
 	npm test
 
-## Search Taiko Repository
+## Add and complete task
 
-* Goto getgauge github page
-* Search for "Taiko"
-* Page contains "getgauge/taiko"
+* Add todo "Automate with Taiko"
+* Complete task
+* View "Active" tasks
+* "Active" tasks must be empty
