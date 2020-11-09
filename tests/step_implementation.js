@@ -11,7 +11,13 @@ const {
     above,
     click,
     checkBox,
-    listItem
+    listItem,
+    toLeftOf,
+    link,
+    text,
+    into,
+    textBox,
+    evaluate
 } = require('taiko');
 const assert = require("assert");
 const headless = process.env.headless_chrome.toLowerCase() === 'true';
@@ -37,21 +43,50 @@ gauge.customScreenshotWriter = async function () {
     return path.basename(screenshotFilePath);
 };
 
-step("Add todo <item>", async (item) => {
-    await goto('https://todo.taiko.dev');
-    await write(item);
+step("Add task <item>", async (item) => {
+    await write(item, into(textBox({
+        class: "new-todo"
+    })));
     await press('Enter');
 });
 
-step("Complete task", async function () {
-    await click(checkBox());
-});
-
 step("View <type> tasks", async function (type) {
-    await click(type);
+    await click(link(type));
 });
 
-step("<type> tasks must be empty", async function (type) {
-    var elements = await listItem(above(type)).elements();
-    assert.ok(elements.length == 0);
+step("Complete tasks <table>", async function (table) {
+    for (var row of table.rows) {
+        await click(checkBox(toLeftOf(row.cells[0])));
+    }
+});
+
+step("Clear all tasks", async function () {
+    await evaluate(() => localStorage.clear());
+});
+
+step("Open todo application", async function () {
+    await goto("todo.taiko.dev");
+});
+
+step("Must not have <table>", async function (table) {
+    for (var row of table.rows) {
+        assert.ok(!await text(row.cells[0]).exists(0, 0));
+    }
+});
+
+step("Must display <message>", async function (message) {
+    assert.ok(await text(message).exists(0, 0));
+});
+
+step("Add tasks <table>", async function (table) {
+    for (var row of table.rows) {
+        await write(row.cells[0]);
+        await press('Enter');
+    }
+});
+
+step("Must have <table>", async function (table) {
+    for (var row of table.rows) {
+        assert.ok(await text(row.cells[0]).exists());
+    }
 });
