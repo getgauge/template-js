@@ -38,7 +38,7 @@ COPY . .
 
 # Create an unprivileged user to run Taiko tests
 RUN groupadd -r gauge && useradd -r -g gauge -G audio,video gauge && \
-   mkdir -p /home/gauge && \
+   mkdir -p /home/gauge/.npm-packages/lib && \
    chown -R gauge:gauge /home/gauge /gauge
  
 USER gauge
