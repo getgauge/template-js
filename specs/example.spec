@@ -17,7 +17,7 @@ This is a context step that runs before every scenario
 * Must display "2 items left"
 
 ## Must list only active tasks
-* Add tasks 
+* Add tasks
 
    |description|
    |-----------|
@@ -27,21 +27,21 @@ This is a context step that runs before every scenario
    |fourth task|
    |fifth task |
 
-* Complete tasks 
+* Complete tasks
 
    |description|
    |-----------|
    |second task|
    |fifth task |
 * View "Active" tasks
-* Must have 
+* Must have
 
    |description|
    |-----------|
    |first task |
    |third task |
    |fourth task|
-* Must not have 
+* Must not have
 
    |description|
    |-----------|
